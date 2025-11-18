@@ -176,14 +176,14 @@ export function ExercisesView() {
   return (
     <div className="h-full flex">
       {showFilters && (
-        <aside className="w-80 bg-slate-900 border-r-2 border-cyan-500/30 overflow-y-auto flex-shrink-0">
+        <aside className="w-80 bg-yellow-100 border-r-4 border-orange-600 overflow-y-auto flex-shrink-0">
           <div className="p-6 space-y-6">
-            <div className="flex items-center justify-between border-b border-cyan-500/30 pb-3">
-              <h3 className="text-lg font-mono font-bold text-cyan-400">[ FILTERS ]</h3>
+            <div className="flex items-center justify-between border-b-2 border-orange-600 pb-3">
+              <h3 className="text-lg font-mono font-bold text-orange-900">[ FILTERS ]</h3>
               {hasActiveFilters && (
                 <button
                   onClick={clearFilters}
-                  className="text-xs text-cyan-400 hover:text-cyan-300 font-mono bg-slate-800 px-2 py-1 border border-cyan-500/30"
+                  className="text-xs text-orange-900 hover:text-orange-800 font-mono bg-amber-100 px-2 py-1 border-2 border-orange-600"
                 >
                   CLEAR
                 </button>
@@ -191,7 +191,7 @@ export function ExercisesView() {
             </div>
 
             <div>
-              <label className="text-xs font-mono font-semibold text-cyan-400 mb-3 block uppercase tracking-wider">
+              <label className="text-xs font-mono font-semibold text-orange-900 mb-3 block uppercase tracking-wider">
                 &gt; Exercise Type
               </label>
               <div className="space-y-2">
@@ -201,9 +201,9 @@ export function ExercisesView() {
                       type="checkbox"
                       checked={typeFilter.includes(type)}
                       onChange={() => toggleType(type)}
-                      className="w-4 h-4 rounded-none border-2 border-cyan-500/50 bg-slate-800 text-cyan-500 focus:ring-cyan-500"
+                      className="w-4 h-4 rounded-none border-2 border-orange-600 bg-amber-50 text-orange-600 focus:ring-orange-500"
                     />
-                    <span className="text-sm font-mono text-slate-300 group-hover:text-cyan-300 capitalize">
+                    <span className="text-sm font-mono text-amber-900 group-hover:text-orange-900 capitalize">
                       {type}
                     </span>
                   </label>
@@ -212,7 +212,7 @@ export function ExercisesView() {
             </div>
 
             <div>
-              <label className="text-xs font-mono font-semibold text-cyan-400 mb-3 block uppercase tracking-wider">
+              <label className="text-xs font-mono font-semibold text-orange-900 mb-3 block uppercase tracking-wider">
                 &gt; Muscle Groups
               </label>
               <div className="space-y-2 max-h-80 overflow-y-auto">
@@ -222,9 +222,9 @@ export function ExercisesView() {
                       type="checkbox"
                       checked={muscleFilters.includes(muscle.id)}
                       onChange={() => toggleMuscle(muscle.id)}
-                      className="w-4 h-4 rounded-none border-2 border-cyan-500/50 bg-slate-800 text-cyan-500 focus:ring-cyan-500"
+                      className="w-4 h-4 rounded-none border-2 border-orange-600 bg-amber-50 text-orange-600 focus:ring-orange-500"
                     />
-                    <span className="text-sm font-mono text-slate-300 group-hover:text-cyan-300">
+                    <span className="text-sm font-mono text-amber-900 group-hover:text-orange-900">
                       {muscle.name}
                     </span>
                   </label>
@@ -233,7 +233,7 @@ export function ExercisesView() {
             </div>
 
             <div>
-              <label className="text-xs font-mono font-semibold text-cyan-400 mb-3 block uppercase tracking-wider">
+              <label className="text-xs font-mono font-semibold text-orange-900 mb-3 block uppercase tracking-wider">
                 &gt; Movement Patterns
               </label>
               <div className="space-y-2">
@@ -243,9 +243,9 @@ export function ExercisesView() {
                       type="checkbox"
                       checked={patternFilters.includes(pattern.name)}
                       onChange={() => togglePattern(pattern.name)}
-                      className="w-4 h-4 rounded-none border-2 border-cyan-500/50 bg-slate-800 text-cyan-500 focus:ring-cyan-500"
+                      className="w-4 h-4 rounded-none border-2 border-orange-600 bg-amber-50 text-orange-600 focus:ring-orange-500"
                     />
-                    <span className="text-sm font-mono text-slate-300 group-hover:text-cyan-300">
+                    <span className="text-sm font-mono text-amber-900 group-hover:text-orange-900">
                       {pattern.name}
                     </span>
                   </label>
@@ -256,26 +256,26 @@ export function ExercisesView() {
         </aside>
       )}
 
-      <div className="flex-1 flex flex-col overflow-hidden bg-slate-950">
-        <div className="bg-slate-900 border-b-2 border-cyan-500/30 px-6 py-4">
+      <div className="flex-1 flex flex-col overflow-hidden bg-amber-50">
+        <div className="bg-yellow-100 border-b-4 border-orange-600 px-6 py-4">
           <div className="flex items-center gap-4">
             <button
               onClick={() => setShowFilters(!showFilters)}
-              className="p-2 bg-slate-800 border border-cyan-500/30 hover:bg-slate-700 transition-colors"
+              className="p-2 bg-amber-100 border-2 border-orange-600 hover:bg-amber-200 transition-colors"
               title={showFilters ? 'Hide filters' : 'Show filters'}
             >
-              <SlidersHorizontal className="w-5 h-5 text-cyan-400" />
+              <SlidersHorizontal className="w-5 h-5 text-orange-900" />
             </button>
 
             <div className="flex-1 relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-cyan-500/50" />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-orange-600/50" />
               <input
                 type="text"
                 value={searchTerm}
                 onChange={e => setSearchTerm(e.target.value)}
                 onKeyDown={e => e.key === 'Enter' && handleSearch()}
                 placeholder="search exercises..."
-                className="w-full pl-10 pr-10 py-2.5 bg-slate-800 border border-cyan-500/30 text-cyan-300 placeholder-cyan-500/30 font-mono text-sm focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50"
+                className="w-full pl-10 pr-10 py-2.5 bg-amber-100 border-2 border-orange-600 text-orange-900 placeholder-orange-600/40 font-mono text-sm focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
               />
               {searchTerm && (
                 <button
@@ -283,16 +283,16 @@ export function ExercisesView() {
                     setSearchTerm('');
                     handleSearch();
                   }}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 p-1 hover:bg-slate-700"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 p-1 hover:bg-amber-200"
                 >
-                  <X className="w-4 h-4 text-cyan-500" />
+                  <X className="w-4 h-4 text-orange-600" />
                 </button>
               )}
             </div>
 
             <button
               onClick={handleSearch}
-              className="px-4 py-2.5 bg-cyan-500 text-slate-900 border-2 border-cyan-300 font-mono font-bold hover:bg-cyan-400 transition-colors text-sm uppercase tracking-wider"
+              className="px-4 py-2.5 bg-orange-600 text-yellow-50 border-4 border-orange-800 font-mono font-bold hover:bg-orange-700 transition-colors text-sm uppercase tracking-wider"
             >
               SEARCH
             </button>
@@ -300,11 +300,11 @@ export function ExercisesView() {
 
           {hasActiveFilters && (
             <div className="flex items-center gap-2 mt-3 flex-wrap">
-              <span className="text-xs font-mono text-cyan-500/50 uppercase">active:</span>
+              <span className="text-xs font-mono text-orange-600/60 uppercase">active:</span>
               {typeFilter.map(type => (
-                <span key={type} className="inline-flex items-center gap-1 px-2 py-1 bg-slate-800 border border-cyan-500/30 text-cyan-400 text-xs font-mono">
+                <span key={type} className="inline-flex items-center gap-1 px-2 py-1 bg-amber-100 border-2 border-orange-600 text-orange-900 text-xs font-mono">
                   {type}
-                  <button onClick={() => toggleType(type)} className="hover:bg-slate-700 ml-1">
+                  <button onClick={() => toggleType(type)} className="hover:bg-amber-200 ml-1">
                     <X className="w-3 h-3" />
                   </button>
                 </span>
@@ -312,18 +312,18 @@ export function ExercisesView() {
               {muscleFilters.map(id => {
                 const muscle = muscles.find(m => m.id === id);
                 return muscle ? (
-                  <span key={id} className="inline-flex items-center gap-1 px-2 py-1 bg-slate-800 border border-emerald-500/30 text-emerald-400 text-xs font-mono">
+                  <span key={id} className="inline-flex items-center gap-1 px-2 py-1 bg-amber-100 border-2 border-green-600 text-green-800 text-xs font-mono">
                     {muscle.name}
-                    <button onClick={() => toggleMuscle(id)} className="hover:bg-slate-700 ml-1">
+                    <button onClick={() => toggleMuscle(id)} className="hover:bg-amber-200 ml-1">
                       <X className="w-3 h-3" />
                     </button>
                   </span>
                 ) : null;
               })}
               {patternFilters.map(name => (
-                <span key={name} className="inline-flex items-center gap-1 px-2 py-1 bg-slate-800 border border-amber-500/30 text-amber-400 text-xs font-mono">
+                <span key={name} className="inline-flex items-center gap-1 px-2 py-1 bg-amber-100 border-2 border-amber-700 text-amber-900 text-xs font-mono">
                   {name}
-                  <button onClick={() => togglePattern(name)} className="hover:bg-slate-700 ml-1">
+                  <button onClick={() => togglePattern(name)} className="hover:bg-amber-200 ml-1">
                     <X className="w-3 h-3" />
                   </button>
                 </span>
@@ -332,18 +332,18 @@ export function ExercisesView() {
           )}
         </div>
 
-        <div className="flex-1 overflow-y-auto p-6 bg-slate-950">
+        <div className="flex-1 overflow-y-auto p-6 bg-amber-50">
           {loading ? (
             <LoadingSpinner />
           ) : error ? (
             <ErrorMessage message={error} />
           ) : exercises.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-full text-center">
-              <div className="p-4 bg-slate-800 border-2 border-cyan-500/30 mb-4">
-                <Search className="w-8 h-8 text-cyan-500/50" />
+              <div className="p-4 bg-amber-100 border-4 border-orange-600 mb-4">
+                <Search className="w-8 h-8 text-orange-600/50" />
               </div>
-              <h3 className="text-lg font-mono font-bold text-cyan-400 mb-2">// NO RESULTS FOUND</h3>
-              <p className="text-slate-400 font-mono text-sm max-w-md">
+              <h3 className="text-lg font-mono font-bold text-orange-900 mb-2">// NO RESULTS FOUND</h3>
+              <p className="text-amber-800 font-mono text-sm max-w-md">
                 {hasActiveFilters
                   ? '&gt; Try adjusting your filters or search criteria.'
                   : '&gt; Get started by creating your first exercise.'}
@@ -352,12 +352,12 @@ export function ExercisesView() {
           ) : (
             <>
               <div className="space-y-2 mb-6">
-                <div className="grid grid-cols-12 gap-4 px-4 py-2 bg-slate-800/60 border-b border-cyan-500/30">
-                  <div className="col-span-4 text-cyan-400 font-mono text-xs uppercase tracking-wider">Exercise</div>
-                  <div className="col-span-2 text-cyan-400 font-mono text-xs uppercase tracking-wider">Type</div>
-                  <div className="col-span-3 text-cyan-400 font-mono text-xs uppercase tracking-wider">Pattern</div>
-                  <div className="col-span-2 text-cyan-400 font-mono text-xs uppercase tracking-wider">Muscles</div>
-                  <div className="col-span-1 text-cyan-400 font-mono text-xs uppercase tracking-wider text-right">Actions</div>
+                <div className="grid grid-cols-12 gap-4 px-4 py-2 bg-yellow-200 border-b-2 border-orange-600">
+                  <div className="col-span-4 text-orange-900 font-mono text-xs uppercase tracking-wider font-bold">Exercise</div>
+                  <div className="col-span-2 text-orange-900 font-mono text-xs uppercase tracking-wider font-bold">Type</div>
+                  <div className="col-span-3 text-orange-900 font-mono text-xs uppercase tracking-wider font-bold">Pattern</div>
+                  <div className="col-span-2 text-orange-900 font-mono text-xs uppercase tracking-wider font-bold">Muscles</div>
+                  <div className="col-span-1 text-orange-900 font-mono text-xs uppercase tracking-wider text-right font-bold">Actions</div>
                 </div>
                 {exercises.map(exercise => (
                   <ExerciseListItem
@@ -374,17 +374,17 @@ export function ExercisesView() {
                   <button
                     onClick={() => setPage(p => Math.max(1, p - 1))}
                     disabled={page === 1}
-                    className="px-4 py-2 bg-slate-800 border border-cyan-500/30 text-cyan-400 font-mono text-sm hover:bg-slate-700 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+                    className="px-4 py-2 bg-amber-100 border-2 border-orange-600 text-orange-900 font-mono text-sm hover:bg-amber-200 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
                   >
                     &lt; PREV
                   </button>
-                  <span className="text-cyan-400 font-mono text-sm">
+                  <span className="text-orange-900 font-mono text-sm">
                     [{metadata.current_page}/{metadata.last_page}]
                   </span>
                   <button
                     onClick={() => setPage(p => Math.min(metadata.last_page, p + 1))}
                     disabled={page === metadata.last_page}
-                    className="px-4 py-2 bg-slate-800 border border-cyan-500/30 text-cyan-400 font-mono text-sm hover:bg-slate-700 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+                    className="px-4 py-2 bg-amber-100 border-2 border-orange-600 text-orange-900 font-mono text-sm hover:bg-amber-200 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
                   >
                     NEXT &gt;
                   </button>
@@ -397,7 +397,7 @@ export function ExercisesView() {
 
       <button
         onClick={() => setIsCreating(true)}
-        className="fixed bottom-8 right-8 p-4 bg-cyan-500 text-slate-900 rounded-none shadow-lg hover:bg-cyan-400 transition-all hover:scale-110 border-2 border-cyan-300"
+        className="fixed bottom-8 right-8 p-4 bg-orange-600 text-yellow-50 rounded-none shadow-lg hover:bg-orange-700 transition-all hover:scale-110 border-4 border-orange-800"
         title="Create Exercise"
       >
         <Plus className="w-6 h-6 font-bold" />

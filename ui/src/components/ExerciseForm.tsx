@@ -88,29 +88,29 @@ export function ExerciseForm({ exercise, onSave, onCancel }: ExerciseFormProps) 
   }, {} as Record<string, Muscle[]>);
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-      <div className="bg-white rounded-2xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
-        <div className="sticky top-0 bg-white border-b border-slate-200 px-6 py-4 flex items-center justify-between">
-          <h2 className="text-2xl font-bold text-slate-900">
+    <div className="fixed inset-0 bg-black/60 flex items-center justify-center p-4 z-50">
+      <div className="bg-yellow-100 border-4 border-orange-800 shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+        <div className="sticky top-0 bg-orange-600 border-b-4 border-orange-800 px-6 py-4 flex items-center justify-between">
+          <h2 className="text-2xl font-mono font-bold text-yellow-50">
             {exercise ? 'Edit Exercise' : 'Create Exercise'}
           </h2>
           <button
             onClick={onCancel}
-            className="p-2 hover:bg-slate-100 rounded-lg transition-colors"
+            className="p-2 hover:bg-orange-700 transition-colors"
           >
-            <X className="w-5 h-5" />
+            <X className="w-5 h-5 text-yellow-50" />
           </button>
         </div>
 
         <form onSubmit={handleSubmit} className="p-6 space-y-6">
           {error && (
-            <div className="bg-red-50 border border-red-200 rounded-lg p-4 text-red-700">
+            <div className="bg-red-100 border-4 border-red-700 p-4 text-red-900 font-mono">
               {error}
             </div>
           )}
 
           <div>
-            <label className="block text-sm font-semibold text-slate-700 mb-2">
+            <label className="block text-sm font-mono font-bold text-orange-900 mb-2 uppercase tracking-wider">
               Exercise Name
             </label>
             <input
@@ -118,13 +118,13 @@ export function ExerciseForm({ exercise, onSave, onCancel }: ExerciseFormProps) 
               value={name}
               onChange={(e) => setName(e.target.value)}
               required
-              className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-4 py-2 bg-amber-50 border-2 border-orange-600 font-mono text-orange-900 focus:outline-none focus:ring-2 focus:ring-orange-500"
               placeholder="e.g., Bench Press"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-semibold text-slate-700 mb-2">
+            <label className="block text-sm font-mono font-bold text-orange-900 mb-2 uppercase tracking-wider">
               Exercise Type
             </label>
             <div className="flex gap-4">
@@ -134,9 +134,9 @@ export function ExerciseForm({ exercise, onSave, onCancel }: ExerciseFormProps) 
                   value="compound"
                   checked={type === 'compound'}
                   onChange={(e) => setType(e.target.value as ExerciseType)}
-                  className="mr-2"
+                  className="mr-2 border-2 border-orange-600 text-orange-600 focus:ring-orange-500"
                 />
-                <span>Compound</span>
+                <span className="font-mono text-orange-900">Compound</span>
               </label>
               <label className="flex items-center">
                 <input
@@ -144,22 +144,22 @@ export function ExerciseForm({ exercise, onSave, onCancel }: ExerciseFormProps) 
                   value="isolation"
                   checked={type === 'isolation'}
                   onChange={(e) => setType(e.target.value as ExerciseType)}
-                  className="mr-2"
+                  className="mr-2 border-2 border-orange-600 text-orange-600 focus:ring-orange-500"
                 />
-                <span>Isolation</span>
+                <span className="font-mono text-orange-900">Isolation</span>
               </label>
             </div>
           </div>
 
           <div>
-            <label className="block text-sm font-semibold text-slate-700 mb-2">
+            <label className="block text-sm font-mono font-bold text-orange-900 mb-2 uppercase tracking-wider">
               Movement Pattern
             </label>
             <select
               value={movementPatternId}
               onChange={(e) => setMovementPatternId(Number(e.target.value))}
               required
-              className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-4 py-2 bg-amber-50 border-2 border-orange-600 font-mono text-orange-900 focus:outline-none focus:ring-2 focus:ring-orange-500"
             >
               <option value={0}>Select a movement pattern</option>
               {patterns.map((pattern) => (
@@ -176,15 +176,15 @@ export function ExerciseForm({ exercise, onSave, onCancel }: ExerciseFormProps) 
             </label>
             <div className="space-y-4">
               {Object.entries(groupedMuscles).map(([bodyPart, musclesList]) => (
-                <div key={bodyPart} className="border border-slate-200 rounded-lg p-4">
-                  <h4 className="font-semibold text-slate-800 mb-3 capitalize">
+                <div key={bodyPart} className="border-2 border-orange-600 bg-amber-50 p-4">
+                  <h4 className="font-mono font-bold text-orange-900 mb-3 uppercase">
                     {bodyPart}
                   </h4>
                   <div className="space-y-2">
                     {musclesList.map((muscle) => (
                       <div key={muscle.id} className="flex items-center gap-3">
-                        <span className="flex-1 text-sm text-slate-700">{muscle.name}</span>
-                        <label className="flex items-center text-sm">
+                        <span className="flex-1 text-sm font-mono text-orange-900">{muscle.name}</span>
+                        <label className="flex items-center text-sm font-mono text-orange-900">
                           <input
                             type="checkbox"
                             checked={primaryMuscles.includes(muscle.id)}
@@ -193,7 +193,7 @@ export function ExerciseForm({ exercise, onSave, onCancel }: ExerciseFormProps) 
                           />
                           Primary
                         </label>
-                        <label className="flex items-center text-sm">
+                        <label className="flex items-center text-sm font-mono text-orange-900">
                           <input
                             type="checkbox"
                             checked={secondaryMuscles.includes(muscle.id)}
@@ -210,18 +210,18 @@ export function ExerciseForm({ exercise, onSave, onCancel }: ExerciseFormProps) 
             </div>
           </div>
 
-          <div className="flex gap-3 pt-4 border-t border-slate-200">
+          <div className="flex gap-3 pt-4 border-t-2 border-orange-600">
             <button
               type="submit"
               disabled={loading}
-              className="flex-1 bg-blue-600 text-white py-3 rounded-lg font-medium hover:bg-blue-700 disabled:bg-slate-400 disabled:cursor-not-allowed transition-colors"
+              className="flex-1 bg-orange-600 text-yellow-50 border-4 border-orange-800 py-3 font-mono font-bold hover:bg-orange-700 disabled:bg-amber-400 disabled:cursor-not-allowed transition-colors uppercase tracking-wider"
             >
               {loading ? 'Saving...' : exercise ? 'Update Exercise' : 'Create Exercise'}
             </button>
             <button
               type="button"
               onClick={onCancel}
-              className="px-6 py-3 border border-slate-300 rounded-lg font-medium hover:bg-slate-50 transition-colors"
+              className="px-6 py-3 border-2 border-orange-600 bg-amber-100 font-mono font-bold hover:bg-amber-200 transition-colors uppercase tracking-wider text-orange-900"
             >
               Cancel
             </button>
