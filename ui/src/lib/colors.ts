@@ -1,13 +1,13 @@
 export const exerciseTypeColors = {
   compound: {
-    border: 'border-orange-500',
-    text: 'text-orange-400',
-    bg: 'bg-orange-500/10',
+    border: 'border-cyan-500',
+    text: 'text-cyan-400',
+    bg: 'bg-cyan-500/10',
   },
   isolation: {
-    border: 'border-purple-500',
-    text: 'text-purple-400',
-    bg: 'bg-purple-500/10',
+    border: 'border-yellow-500',
+    text: 'text-yellow-400',
+    bg: 'bg-yellow-500/10',
   },
 };
 
