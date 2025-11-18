@@ -1,3 +1,4 @@
+import { useTheme } from '../ThemeContext';
 import { useState, useEffect } from 'react';
 import { Plus, Search, SlidersHorizontal, X } from 'lucide-react';
 import { ExerciseListItem } from '../components/ExerciseListItem';
@@ -9,6 +10,7 @@ import { getExercises, getMuscles, getMovementPatterns, createExercise, updateEx
 import type { Exercise, ExerciseType, Muscle, MovementPattern } from '../types/api';
 
 export function ExercisesView() {
+  const { themeColors } = useTheme();
   const [exercises, setExercises] = useState<Exercise[]>([]);
   const [muscles, setMuscles] = useState<Muscle[]>([]);
   const [movementPatterns, setMovementPatterns] = useState<MovementPattern[]>([]);
@@ -174,16 +176,16 @@ export function ExercisesView() {
   };
 
   return (
-    <div className="h-full flex">
+    <div className={`h-full flex`}
       {showFilters && (
-        <aside className="w-80 bg-neutral-900 border-r-4 border-yellow-400 overflow-y-auto flex-shrink-0">
-          <div className="p-6 space-y-6">
-            <div className="flex items-center justify-between border-b-2 border-yellow-400 pb-3">
-              <h3 className="text-lg font-mono font-bold text-yellow-400">[ FILTERS ]</h3>
+        <aside className={`w-80 ${themeColors.bgSecondary} border-r-4 ${themeColors.border} overflow-y-auto flex-shrink-0`}
+          <div className={`p-6 space-y-6`}
+            <div className={`flex items-center justify-between border-b-2 ${themeColors.border} pb-3`}
+              <h3 className={`text-lg font-mono font-bold ${themeColors.text}`}[ FILTERS ]</h3>
               {hasActiveFilters && (
                 <button
                   onClick={clearFilters}
-                  className="text-xs text-yellow-400 hover:text-yellow-300 font-mono bg-neutral-800 px-2 py-1 border-2 border-yellow-400"
+                  className={`text-xs ${themeColors.text} ${themeColors.textHover} font-mono ${themeColors.bgTertiary} px-2 py-1 border-2 ${themeColors.border}"
                 >
                   CLEAR
                 </button>
@@ -191,19 +193,19 @@ export function ExercisesView() {
             </div>
 
             <div>
-              <label className="text-xs font-mono font-semibold text-yellow-400 mb-3 block uppercase tracking-wider">
+              <label className={`text-xs font-mono font-semibold ${themeColors.text} mb-3 block uppercase tracking-wider`}
                 &gt; Exercise Type
               </label>
-              <div className="space-y-2">
+              <div className={`space-y-2`}
                 {(['compound', 'isolation'] as ExerciseType[]).map(type => (
-                  <label key={type} className="flex items-center gap-2 cursor-pointer group">
+                  <label key={type} className={`flex items-center gap-2 cursor-pointer group`}
                     <input
                       type="checkbox"
                       checked={typeFilter.includes(type)}
                       onChange={() => toggleType(type)}
-                      className="w-4 h-4 rounded-none border-2 border-yellow-400 bg-neutral-950 text-yellow-400 focus:ring-yellow-400"
+                      className={`w-4 h-4 rounded-none border-2 ${themeColors.border} ${themeColors.bg} ${themeColors.text} focus:${themeColors.ring}"
                     />
-                    <span className="text-sm font-mono text-neutral-300 group-hover:text-yellow-400 capitalize">
+                    <span className={`text-sm font-mono ${themeColors.textSecondary} group-hover:${themeColors.text} capitalize`}
                       {type}
                     </span>
                   </label>
@@ -212,19 +214,19 @@ export function ExercisesView() {
             </div>
 
             <div>
-              <label className="text-xs font-mono font-semibold text-yellow-400 mb-3 block uppercase tracking-wider">
+              <label className={`text-xs font-mono font-semibold ${themeColors.text} mb-3 block uppercase tracking-wider`}
                 &gt; Muscle Groups
               </label>
-              <div className="space-y-2 max-h-80 overflow-y-auto">
+              <div className={`space-y-2 max-h-80 overflow-y-auto`}
                 {muscles.map(muscle => (
-                  <label key={muscle.id} className="flex items-center gap-2 cursor-pointer group">
+                  <label key={muscle.id} className={`flex items-center gap-2 cursor-pointer group`}
                     <input
                       type="checkbox"
                       checked={muscleFilters.includes(muscle.id)}
                       onChange={() => toggleMuscle(muscle.id)}
-                      className="w-4 h-4 rounded-none border-2 border-yellow-400 bg-neutral-950 text-yellow-400 focus:ring-yellow-400"
+                      className={`w-4 h-4 rounded-none border-2 ${themeColors.border} ${themeColors.bg} ${themeColors.text} focus:${themeColors.ring}"
                     />
-                    <span className="text-sm font-mono text-neutral-300 group-hover:text-yellow-400">
+                    <span className={`text-sm font-mono ${themeColors.textSecondary} group-hover:${themeColors.text}`}
                       {muscle.name}
                     </span>
                   </label>
@@ -233,19 +235,19 @@ export function ExercisesView() {
             </div>
 
             <div>
-              <label className="text-xs font-mono font-semibold text-yellow-400 mb-3 block uppercase tracking-wider">
+              <label className={`text-xs font-mono font-semibold ${themeColors.text} mb-3 block uppercase tracking-wider`}
                 &gt; Movement Patterns
               </label>
-              <div className="space-y-2">
+              <div className={`space-y-2`}
                 {movementPatterns.map(pattern => (
-                  <label key={pattern.id} className="flex items-center gap-2 cursor-pointer group">
+                  <label key={pattern.id} className={`flex items-center gap-2 cursor-pointer group`}
                     <input
                       type="checkbox"
                       checked={patternFilters.includes(pattern.name)}
                       onChange={() => togglePattern(pattern.name)}
-                      className="w-4 h-4 rounded-none border-2 border-yellow-400 bg-neutral-950 text-yellow-400 focus:ring-yellow-400"
+                      className={`w-4 h-4 rounded-none border-2 ${themeColors.border} ${themeColors.bg} ${themeColors.text} focus:${themeColors.ring}"
                     />
-                    <span className="text-sm font-mono text-neutral-300 group-hover:text-yellow-400">
+                    <span className={`text-sm font-mono ${themeColors.textSecondary} group-hover:${themeColors.text}`}
                       {pattern.name}
                     </span>
                   </label>
@@ -256,26 +258,26 @@ export function ExercisesView() {
         </aside>
       )}
 
-      <div className="flex-1 flex flex-col overflow-hidden bg-neutral-950">
-        <div className="bg-neutral-900 border-b-4 border-yellow-400 px-6 py-4">
-          <div className="flex items-center gap-4">
+      <div className={`flex-1 flex flex-col overflow-hidden ${themeColors.bg}`}
+        <div className={`${themeColors.bgSecondary} border-b-4 ${themeColors.border} px-6 py-4`}
+          <div className={`flex items-center gap-4`}
             <button
               onClick={() => setShowFilters(!showFilters)}
-              className="p-2 bg-neutral-800 border-2 border-yellow-400 hover:bg-neutral-700 transition-colors"
+              className={`p-2 ${themeColors.bgTertiary} border-2 ${themeColors.border} hover:${themeColors.bgTertiary} transition-colors"
               title={showFilters ? 'Hide filters' : 'Show filters'}
             >
-              <SlidersHorizontal className="w-5 h-5 text-yellow-400" />
+              <SlidersHorizontal className={`w-5 h-5 ${themeColors.text}" />
             </button>
 
-            <div className="flex-1 relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-yellow-400/50" />
+            <div className={`flex-1 relative`}
+              <Search className={`absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 ${themeColors.text}/50" />
               <input
                 type="text"
                 value={searchTerm}
                 onChange={e => setSearchTerm(e.target.value)}
                 onKeyDown={e => e.key === 'Enter' && handleSearch()}
                 placeholder="search exercises..."
-                className="w-full pl-10 pr-10 py-2.5 bg-neutral-800 border-2 border-yellow-400 text-yellow-400 placeholder-neutral-500/40 font-mono text-sm focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400"
+                className={`w-full pl-10 pr-10 py-2.5 ${themeColors.bgTertiary} border-2 ${themeColors.border} ${themeColors.text} placeholder-neutral-500/40 font-mono text-sm focus:outline-none focus:ring-2 focus:${themeColors.ring} focus:${themeColors.border}"
               />
               {searchTerm && (
                 <button
@@ -283,48 +285,48 @@ export function ExercisesView() {
                     setSearchTerm('');
                     handleSearch();
                   }}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 p-1 hover:bg-neutral-700"
+                  className={`absolute right-3 top-1/2 -translate-y-1/2 p-1 hover:${themeColors.bgTertiary}"
                 >
-                  <X className="w-4 h-4 text-yellow-400" />
+                  <X className={`w-4 h-4 ${themeColors.text}" />
                 </button>
               )}
             </div>
 
             <button
               onClick={handleSearch}
-              className="px-4 py-2.5 bg-yellow-400 text-neutral-950 border-4 border-yellow-500 font-mono font-bold hover:bg-yellow-500 transition-colors text-sm uppercase tracking-wider"
+              className={`px-4 py-2.5 ${themeColors.accent} ${themeColors.iconBg} border-4 ${themeColors.borderSecondary} font-mono font-bold ${themeColors.accentHover} transition-colors text-sm uppercase tracking-wider"
             >
               SEARCH
             </button>
           </div>
 
           {hasActiveFilters && (
-            <div className="flex items-center gap-2 mt-3 flex-wrap">
-              <span className="text-xs font-mono text-yellow-400/60 uppercase">active:</span>
+            <div className={`flex items-center gap-2 mt-3 flex-wrap`}
+              <span className={`text-xs font-mono ${themeColors.text}/60 uppercase`}active:</span>
               {typeFilter.map(type => (
-                <span key={type} className="inline-flex items-center gap-1 px-2 py-1 bg-neutral-800 border-2 border-yellow-400 text-yellow-400 text-xs font-mono">
+                <span key={type} className={`inline-flex items-center gap-1 px-2 py-1 ${themeColors.bgTertiary} border-2 ${themeColors.border} ${themeColors.text} text-xs font-mono`}
                   {type}
-                  <button onClick={() => toggleType(type)} className="hover:bg-neutral-700 ml-1">
-                    <X className="w-3 h-3" />
+                  <button onClick={() => toggleType(type)} className={`hover:${themeColors.bgTertiary} ml-1`}
+                    <X className={`w-3 h-3" />
                   </button>
                 </span>
               ))}
               {muscleFilters.map(id => {
                 const muscle = muscles.find(m => m.id === id);
                 return muscle ? (
-                  <span key={id} className="inline-flex items-center gap-1 px-2 py-1 bg-neutral-800 border-2 border-green-600 text-green-800 text-xs font-mono">
+                  <span key={id} className={`inline-flex items-center gap-1 px-2 py-1 ${themeColors.bgTertiary} border-2 border-green-600 text-green-800 text-xs font-mono`}
                     {muscle.name}
-                    <button onClick={() => toggleMuscle(id)} className="hover:bg-neutral-700 ml-1">
-                      <X className="w-3 h-3" />
+                    <button onClick={() => toggleMuscle(id)} className={`hover:${themeColors.bgTertiary} ml-1`}
+                      <X className={`w-3 h-3" />
                     </button>
                   </span>
                 ) : null;
               })}
               {patternFilters.map(name => (
-                <span key={name} className="inline-flex items-center gap-1 px-2 py-1 bg-neutral-800 border-2 border-amber-700 text-neutral-300 text-xs font-mono">
+                <span key={name} className={`inline-flex items-center gap-1 px-2 py-1 ${themeColors.bgTertiary} border-2 border-amber-700 ${themeColors.textSecondary} text-xs font-mono`}
                   {name}
-                  <button onClick={() => togglePattern(name)} className="hover:bg-neutral-700 ml-1">
-                    <X className="w-3 h-3" />
+                  <button onClick={() => togglePattern(name)} className={`hover:${themeColors.bgTertiary} ml-1`}
+                    <X className={`w-3 h-3" />
                   </button>
                 </span>
               ))}
@@ -332,18 +334,18 @@ export function ExercisesView() {
           )}
         </div>
 
-        <div className="flex-1 overflow-y-auto p-6 bg-neutral-950">
+        <div className={`flex-1 overflow-y-auto p-6 ${themeColors.bg}`}
           {loading ? (
             <LoadingSpinner />
           ) : error ? (
             <ErrorMessage message={error} />
           ) : exercises.length === 0 ? (
-            <div className="flex flex-col items-center justify-center h-full text-center">
-              <div className="p-4 bg-neutral-800 border-4 border-yellow-400 mb-4">
-                <Search className="w-8 h-8 text-yellow-400/50" />
+            <div className={`flex flex-col items-center justify-center h-full text-center`}
+              <div className={`p-4 ${themeColors.bgTertiary} border-4 ${themeColors.border} mb-4`}
+                <Search className={`w-8 h-8 ${themeColors.text}/50" />
               </div>
-              <h3 className="text-lg font-mono font-bold text-yellow-400 mb-2">// NO RESULTS FOUND</h3>
-              <p className="text-neutral-400 font-mono text-sm max-w-md">
+              <h3 className={`text-lg font-mono font-bold ${themeColors.text} mb-2`}// NO RESULTS FOUND</h3>
+              <p className={`text-neutral-400 font-mono text-sm max-w-md`}
                 {hasActiveFilters
                   ? '&gt; Try adjusting your filters or search criteria.'
                   : '&gt; Get started by creating your first exercise.'}
@@ -351,13 +353,13 @@ export function ExercisesView() {
             </div>
           ) : (
             <>
-              <div className="space-y-2 mb-6">
-                <div className="grid grid-cols-12 gap-4 px-4 py-2 bg-neutral-800 border-b-2 border-yellow-400">
-                  <div className="col-span-4 text-yellow-400 font-mono text-xs uppercase tracking-wider font-bold">Exercise</div>
-                  <div className="col-span-2 text-yellow-400 font-mono text-xs uppercase tracking-wider font-bold">Type</div>
-                  <div className="col-span-3 text-yellow-400 font-mono text-xs uppercase tracking-wider font-bold">Pattern</div>
-                  <div className="col-span-2 text-yellow-400 font-mono text-xs uppercase tracking-wider font-bold">Muscles</div>
-                  <div className="col-span-1 text-yellow-400 font-mono text-xs uppercase tracking-wider text-right font-bold">Actions</div>
+              <div className={`space-y-2 mb-6`}
+                <div className={`grid grid-cols-12 gap-4 px-4 py-2 ${themeColors.bgTertiary} border-b-2 ${themeColors.border}`}
+                  <div className={`col-span-4 ${themeColors.text} font-mono text-xs uppercase tracking-wider font-bold`}Exercise</div>
+                  <div className={`col-span-2 ${themeColors.text} font-mono text-xs uppercase tracking-wider font-bold`}Type</div>
+                  <div className={`col-span-3 ${themeColors.text} font-mono text-xs uppercase tracking-wider font-bold`}Pattern</div>
+                  <div className={`col-span-2 ${themeColors.text} font-mono text-xs uppercase tracking-wider font-bold`}Muscles</div>
+                  <div className={`col-span-1 ${themeColors.text} font-mono text-xs uppercase tracking-wider text-right font-bold`}Actions</div>
                 </div>
                 {exercises.map(exercise => (
                   <ExerciseListItem
@@ -370,21 +372,21 @@ export function ExercisesView() {
               </div>
 
               {metadata && metadata.last_page > 1 && (
-                <div className="flex items-center justify-center gap-3">
+                <div className={`flex items-center justify-center gap-3`}
                   <button
                     onClick={() => setPage(p => Math.max(1, p - 1))}
                     disabled={page === 1}
-                    className="px-4 py-2 bg-neutral-800 border-2 border-yellow-400 text-yellow-400 font-mono text-sm hover:bg-neutral-700 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+                    className={`px-4 py-2 ${themeColors.bgTertiary} border-2 ${themeColors.border} ${themeColors.text} font-mono text-sm hover:${themeColors.bgTertiary} disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
                   >
                     &lt; PREV
                   </button>
-                  <span className="text-yellow-400 font-mono text-sm">
+                  <span className={`${themeColors.text} font-mono text-sm`}
                     [{metadata.current_page}/{metadata.last_page}]
                   </span>
                   <button
                     onClick={() => setPage(p => Math.min(metadata.last_page, p + 1))}
                     disabled={page === metadata.last_page}
-                    className="px-4 py-2 bg-neutral-800 border-2 border-yellow-400 text-yellow-400 font-mono text-sm hover:bg-neutral-700 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+                    className={`px-4 py-2 ${themeColors.bgTertiary} border-2 ${themeColors.border} ${themeColors.text} font-mono text-sm hover:${themeColors.bgTertiary} disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
                   >
                     NEXT &gt;
                   </button>
@@ -397,10 +399,10 @@ export function ExercisesView() {
 
       <button
         onClick={() => setIsCreating(true)}
-        className="fixed bottom-8 right-8 p-4 bg-yellow-400 text-neutral-950 rounded-none shadow-lg hover:bg-yellow-500 transition-all hover:scale-110 border-4 border-yellow-500"
+        className={`fixed bottom-8 right-8 p-4 ${themeColors.accent} ${themeColors.iconBg} rounded-none shadow-lg ${themeColors.accentHover} transition-all hover:scale-110 border-4 ${themeColors.borderSecondary}"
         title="Create Exercise"
       >
-        <Plus className="w-6 h-6 font-bold" />
+        <Plus className={`w-6 h-6 font-bold" />
       </button>
 
       {isCreating && (
