@@ -1,31 +1,37 @@
-import { X, Dumbbell, Activity, Target, Zap } from 'lucide-react';
+import { X, Dumbbell, Activity, Target, Zap, Edit, Trash2 } from 'lucide-react';
 import type { Exercise } from '../types/api';
 
 interface ExerciseDetailProps {
   exercise: Exercise;
   onClose: () => void;
+  onEdit?: () => void;
+  onDelete?: () => void;
 }
 
-export function ExerciseDetail({ exercise, onClose }: ExerciseDetailProps) {
+export function ExerciseDetail({ exercise, onClose, onEdit, onDelete }: ExerciseDetailProps) {
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-4">
-      <div className="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-        <div className="sticky top-0 bg-white border-b border-slate-200 px-6 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="p-2 bg-blue-50 rounded-lg">
-              <Dumbbell className="w-6 h-6 text-blue-600" />
+    <>
+      <div
+        className="fixed inset-0 bg-black/30 backdrop-blur-sm z-40"
+        onClick={onClose}
+      />
+      <div className="fixed top-0 right-0 h-full w-full max-w-2xl bg-white shadow-2xl z-50 flex flex-col animate-slide-in">
+        <div className="bg-gradient-to-r from-blue-600 to-blue-700 px-6 py-5 flex items-center justify-between flex-shrink-0">
+          <div className="flex items-center gap-3 flex-1 min-w-0">
+            <div className="p-2 bg-white/10 rounded-lg backdrop-blur-sm flex-shrink-0">
+              <Dumbbell className="w-6 h-6 text-white" />
             </div>
-            <h2 className="text-2xl font-bold text-slate-900">{exercise.name}</h2>
+            <h2 className="text-2xl font-bold text-white truncate">{exercise.name}</h2>
           </div>
           <button
             onClick={onClose}
-            className="p-2 rounded-lg hover:bg-slate-100 transition-colors"
+            className="p-2 rounded-lg hover:bg-white/10 transition-colors flex-shrink-0 ml-3"
           >
-            <X className="w-5 h-5 text-slate-600" />
+            <X className="w-5 h-5 text-white" />
           </button>
         </div>
 
-        <div className="p-6 space-y-6">
+        <div className="flex-1 overflow-y-auto p-6 space-y-6">
           <div className="grid grid-cols-2 gap-4">
             <div className="bg-slate-50 rounded-xl p-4 border border-slate-200">
               <div className="flex items-center gap-2 mb-2">
@@ -101,7 +107,44 @@ export function ExerciseDetail({ exercise, onClose }: ExerciseDetailProps) {
             </div>
           )}
         </div>
+
+        {(onEdit || onDelete) && (
+          <div className="border-t border-slate-200 px-6 py-4 bg-slate-50 flex gap-3 flex-shrink-0">
+            {onEdit && (
+              <button
+                onClick={onEdit}
+                className="flex-1 flex items-center justify-center gap-2 px-4 py-3 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition-colors"
+              >
+                <Edit className="w-4 h-4" />
+                Edit Exercise
+              </button>
+            )}
+            {onDelete && (
+              <button
+                onClick={onDelete}
+                className="flex-1 flex items-center justify-center gap-2 px-4 py-3 bg-red-600 text-white rounded-lg font-medium hover:bg-red-700 transition-colors"
+              >
+                <Trash2 className="w-4 h-4" />
+                Delete
+              </button>
+            )}
+          </div>
+        )}
       </div>
-    </div>
+
+      <style>{`
+        @keyframes slide-in {
+          from {
+            transform: translateX(100%);
+          }
+          to {
+            transform: translateX(0);
+          }
+        }
+        .animate-slide-in {
+          animation: slide-in 0.3s ease-out;
+        }
+      `}</style>
+    </>
   );
 }
