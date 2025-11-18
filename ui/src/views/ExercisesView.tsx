@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Plus, Search, SlidersHorizontal, X } from 'lucide-react';
-import { ExerciseCard } from '../components/ExerciseCard';
-import { ExerciseDetail } from '../components/ExerciseDetail';
+import { ExerciseListItem } from '../components/ExerciseListItem';
 import { ExerciseForm } from '../components/ExerciseForm';
 import { ConfirmDialog } from '../components/ConfirmDialog';
 import { LoadingSpinner } from '../components/LoadingSpinner';
@@ -24,7 +23,6 @@ export function ExercisesView() {
   const [showFilters, setShowFilters] = useState(true);
   const [page, setPage] = useState(1);
 
-  const [selectedExercise, setSelectedExercise] = useState<Exercise | null>(null);
   const [editingExercise, setEditingExercise] = useState<Exercise | null>(null);
   const [isCreating, setIsCreating] = useState(false);
   const [deletingExercise, setDeletingExercise] = useState<Exercise | null>(null);
@@ -85,7 +83,7 @@ export function ExercisesView() {
           );
         }
 
-        const pageSize = 12;
+        const pageSize = 50;
         const startIdx = (page - 1) * pageSize;
         const endIdx = startIdx + pageSize;
         const paginatedExercises = allExercises.slice(startIdx, endIdx);
@@ -104,7 +102,7 @@ export function ExercisesView() {
           type: typeFilter.length === 1 ? typeFilter[0] : undefined,
           movement_pattern: patternFilters.length === 1 ? patternFilters[0] : undefined,
           page,
-          page_size: 12
+          page_size: 50
         });
 
         setExercises(data.exercises);
@@ -163,7 +161,6 @@ export function ExercisesView() {
     if (editingExercise) {
       await updateExercise(editingExercise.id, data);
       setEditingExercise(null);
-      setSelectedExercise(null);
       loadExercises();
     }
   };
@@ -172,7 +169,6 @@ export function ExercisesView() {
     if (deletingExercise) {
       await deleteExercise(deletingExercise.id);
       setDeletingExercise(null);
-      setSelectedExercise(null);
       loadExercises();
     }
   };
@@ -180,22 +176,24 @@ export function ExercisesView() {
   return (
     <div className="h-full flex">
       {showFilters && (
-        <aside className="w-80 bg-white border-r border-slate-200 overflow-y-auto flex-shrink-0">
+        <aside className="w-80 bg-slate-900 border-r-2 border-cyan-500/30 overflow-y-auto flex-shrink-0">
           <div className="p-6 space-y-6">
-            <div className="flex items-center justify-between">
-              <h3 className="text-lg font-bold text-slate-900">Filters</h3>
+            <div className="flex items-center justify-between border-b border-cyan-500/30 pb-3">
+              <h3 className="text-lg font-mono font-bold text-cyan-400">[ FILTERS ]</h3>
               {hasActiveFilters && (
                 <button
                   onClick={clearFilters}
-                  className="text-sm text-blue-600 hover:text-blue-700 font-medium"
+                  className="text-xs text-cyan-400 hover:text-cyan-300 font-mono bg-slate-800 px-2 py-1 border border-cyan-500/30"
                 >
-                  Clear all
+                  CLEAR
                 </button>
               )}
             </div>
 
             <div>
-              <label className="text-sm font-semibold text-slate-700 mb-3 block">Exercise Type</label>
+              <label className="text-xs font-mono font-semibold text-cyan-400 mb-3 block uppercase tracking-wider">
+                &gt; Exercise Type
+              </label>
               <div className="space-y-2">
                 {(['compound', 'isolation'] as ExerciseType[]).map(type => (
                   <label key={type} className="flex items-center gap-2 cursor-pointer group">
@@ -203,9 +201,9 @@ export function ExercisesView() {
                       type="checkbox"
                       checked={typeFilter.includes(type)}
                       onChange={() => toggleType(type)}
-                      className="w-4 h-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500"
+                      className="w-4 h-4 rounded-none border-2 border-cyan-500/50 bg-slate-800 text-cyan-500 focus:ring-cyan-500"
                     />
-                    <span className="text-sm text-slate-700 group-hover:text-slate-900 capitalize">
+                    <span className="text-sm font-mono text-slate-300 group-hover:text-cyan-300 capitalize">
                       {type}
                     </span>
                   </label>
@@ -214,8 +212,8 @@ export function ExercisesView() {
             </div>
 
             <div>
-              <label className="text-sm font-semibold text-slate-700 mb-3 block">
-                Muscle Groups
+              <label className="text-xs font-mono font-semibold text-cyan-400 mb-3 block uppercase tracking-wider">
+                &gt; Muscle Groups
               </label>
               <div className="space-y-2 max-h-80 overflow-y-auto">
                 {muscles.map(muscle => (
@@ -224,9 +222,9 @@ export function ExercisesView() {
                       type="checkbox"
                       checked={muscleFilters.includes(muscle.id)}
                       onChange={() => toggleMuscle(muscle.id)}
-                      className="w-4 h-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500"
+                      className="w-4 h-4 rounded-none border-2 border-cyan-500/50 bg-slate-800 text-cyan-500 focus:ring-cyan-500"
                     />
-                    <span className="text-sm text-slate-700 group-hover:text-slate-900">
+                    <span className="text-sm font-mono text-slate-300 group-hover:text-cyan-300">
                       {muscle.name}
                     </span>
                   </label>
@@ -235,8 +233,8 @@ export function ExercisesView() {
             </div>
 
             <div>
-              <label className="text-sm font-semibold text-slate-700 mb-3 block">
-                Movement Patterns
+              <label className="text-xs font-mono font-semibold text-cyan-400 mb-3 block uppercase tracking-wider">
+                &gt; Movement Patterns
               </label>
               <div className="space-y-2">
                 {movementPatterns.map(pattern => (
@@ -245,9 +243,9 @@ export function ExercisesView() {
                       type="checkbox"
                       checked={patternFilters.includes(pattern.name)}
                       onChange={() => togglePattern(pattern.name)}
-                      className="w-4 h-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500"
+                      className="w-4 h-4 rounded-none border-2 border-cyan-500/50 bg-slate-800 text-cyan-500 focus:ring-cyan-500"
                     />
-                    <span className="text-sm text-slate-700 group-hover:text-slate-900">
+                    <span className="text-sm font-mono text-slate-300 group-hover:text-cyan-300">
                       {pattern.name}
                     </span>
                   </label>
@@ -258,26 +256,26 @@ export function ExercisesView() {
         </aside>
       )}
 
-      <div className="flex-1 flex flex-col overflow-hidden">
-        <div className="bg-white border-b border-slate-200 px-6 py-4">
+      <div className="flex-1 flex flex-col overflow-hidden bg-slate-950">
+        <div className="bg-slate-900 border-b-2 border-cyan-500/30 px-6 py-4">
           <div className="flex items-center gap-4">
             <button
               onClick={() => setShowFilters(!showFilters)}
-              className="p-2 hover:bg-slate-100 rounded-lg transition-colors"
+              className="p-2 bg-slate-800 border border-cyan-500/30 hover:bg-slate-700 transition-colors"
               title={showFilters ? 'Hide filters' : 'Show filters'}
             >
-              <SlidersHorizontal className="w-5 h-5 text-slate-600" />
+              <SlidersHorizontal className="w-5 h-5 text-cyan-400" />
             </button>
 
             <div className="flex-1 relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-cyan-500/50" />
               <input
                 type="text"
                 value={searchTerm}
                 onChange={e => setSearchTerm(e.target.value)}
                 onKeyDown={e => e.key === 'Enter' && handleSearch()}
-                placeholder="Search exercises..."
-                className="w-full pl-10 pr-10 py-2.5 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                placeholder="search exercises..."
+                className="w-full pl-10 pr-10 py-2.5 bg-slate-800 border border-cyan-500/30 text-cyan-300 placeholder-cyan-500/30 font-mono text-sm focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50"
               />
               {searchTerm && (
                 <button
@@ -285,28 +283,28 @@ export function ExercisesView() {
                     setSearchTerm('');
                     handleSearch();
                   }}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 p-1 hover:bg-slate-200 rounded"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 p-1 hover:bg-slate-700"
                 >
-                  <X className="w-4 h-4 text-slate-500" />
+                  <X className="w-4 h-4 text-cyan-500" />
                 </button>
               )}
             </div>
 
             <button
               onClick={handleSearch}
-              className="px-4 py-2.5 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition-colors text-sm"
+              className="px-4 py-2.5 bg-cyan-500 text-slate-900 border-2 border-cyan-300 font-mono font-bold hover:bg-cyan-400 transition-colors text-sm uppercase tracking-wider"
             >
-              Search
+              SEARCH
             </button>
           </div>
 
           {hasActiveFilters && (
             <div className="flex items-center gap-2 mt-3 flex-wrap">
-              <span className="text-xs font-medium text-slate-500">Active filters:</span>
+              <span className="text-xs font-mono text-cyan-500/50 uppercase">active:</span>
               {typeFilter.map(type => (
-                <span key={type} className="inline-flex items-center gap-1 px-2 py-1 bg-blue-100 text-blue-700 rounded-md text-xs font-medium">
+                <span key={type} className="inline-flex items-center gap-1 px-2 py-1 bg-slate-800 border border-cyan-500/30 text-cyan-400 text-xs font-mono">
                   {type}
-                  <button onClick={() => toggleType(type)} className="hover:bg-blue-200 rounded">
+                  <button onClick={() => toggleType(type)} className="hover:bg-slate-700 ml-1">
                     <X className="w-3 h-3" />
                   </button>
                 </span>
@@ -314,18 +312,18 @@ export function ExercisesView() {
               {muscleFilters.map(id => {
                 const muscle = muscles.find(m => m.id === id);
                 return muscle ? (
-                  <span key={id} className="inline-flex items-center gap-1 px-2 py-1 bg-emerald-100 text-emerald-700 rounded-md text-xs font-medium">
+                  <span key={id} className="inline-flex items-center gap-1 px-2 py-1 bg-slate-800 border border-emerald-500/30 text-emerald-400 text-xs font-mono">
                     {muscle.name}
-                    <button onClick={() => toggleMuscle(id)} className="hover:bg-emerald-200 rounded">
+                    <button onClick={() => toggleMuscle(id)} className="hover:bg-slate-700 ml-1">
                       <X className="w-3 h-3" />
                     </button>
                   </span>
                 ) : null;
               })}
               {patternFilters.map(name => (
-                <span key={name} className="inline-flex items-center gap-1 px-2 py-1 bg-amber-100 text-amber-700 rounded-md text-xs font-medium">
+                <span key={name} className="inline-flex items-center gap-1 px-2 py-1 bg-slate-800 border border-amber-500/30 text-amber-400 text-xs font-mono">
                   {name}
-                  <button onClick={() => togglePattern(name)} className="hover:bg-amber-200 rounded">
+                  <button onClick={() => togglePattern(name)} className="hover:bg-slate-700 ml-1">
                     <X className="w-3 h-3" />
                   </button>
                 </span>
@@ -334,61 +332,61 @@ export function ExercisesView() {
           )}
         </div>
 
-        <div className="flex-1 overflow-y-auto p-6">
+        <div className="flex-1 overflow-y-auto p-6 bg-slate-950">
           {loading ? (
             <LoadingSpinner />
           ) : error ? (
             <ErrorMessage message={error} />
           ) : exercises.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-full text-center">
-              <div className="p-4 bg-slate-100 rounded-full mb-4">
-                <Search className="w-8 h-8 text-slate-400" />
+              <div className="p-4 bg-slate-800 border-2 border-cyan-500/30 mb-4">
+                <Search className="w-8 h-8 text-cyan-500/50" />
               </div>
-              <h3 className="text-lg font-semibold text-slate-900 mb-1">No exercises found</h3>
-              <p className="text-slate-600 text-sm max-w-md">
+              <h3 className="text-lg font-mono font-bold text-cyan-400 mb-2">// NO RESULTS FOUND</h3>
+              <p className="text-slate-400 font-mono text-sm max-w-md">
                 {hasActiveFilters
-                  ? 'Try adjusting your filters or search criteria.'
-                  : 'Get started by creating your first exercise.'}
+                  ? '&gt; Try adjusting your filters or search criteria.'
+                  : '&gt; Get started by creating your first exercise.'}
               </p>
             </div>
           ) : (
             <>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-5 mb-6">
+              <div className="space-y-2 mb-6">
+                <div className="grid grid-cols-12 gap-4 px-4 py-2 bg-slate-800/60 border-b border-cyan-500/30">
+                  <div className="col-span-4 text-cyan-400 font-mono text-xs uppercase tracking-wider">Exercise</div>
+                  <div className="col-span-2 text-cyan-400 font-mono text-xs uppercase tracking-wider">Type</div>
+                  <div className="col-span-3 text-cyan-400 font-mono text-xs uppercase tracking-wider">Pattern</div>
+                  <div className="col-span-2 text-cyan-400 font-mono text-xs uppercase tracking-wider">Muscles</div>
+                  <div className="col-span-1 text-cyan-400 font-mono text-xs uppercase tracking-wider text-right">Actions</div>
+                </div>
                 {exercises.map(exercise => (
-                  <ExerciseCard
+                  <ExerciseListItem
                     key={exercise.id}
                     exercise={exercise}
-                    onClick={() => setSelectedExercise(exercise)}
-                    onEdit={e => {
-                      e.stopPropagation();
-                      setEditingExercise(exercise);
-                    }}
-                    onDelete={e => {
-                      e.stopPropagation();
-                      setDeletingExercise(exercise);
-                    }}
+                    onEdit={() => setEditingExercise(exercise)}
+                    onDelete={() => setDeletingExercise(exercise)}
                   />
                 ))}
               </div>
 
               {metadata && metadata.last_page > 1 && (
-                <div className="flex items-center justify-center gap-2">
+                <div className="flex items-center justify-center gap-3">
                   <button
                     onClick={() => setPage(p => Math.max(1, p - 1))}
                     disabled={page === 1}
-                    className="px-4 py-2 border border-slate-300 rounded-lg text-sm font-medium hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="px-4 py-2 bg-slate-800 border border-cyan-500/30 text-cyan-400 font-mono text-sm hover:bg-slate-700 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
                   >
-                    Previous
+                    &lt; PREV
                   </button>
-                  <span className="text-sm text-slate-600">
-                    Page {metadata.current_page} of {metadata.last_page}
+                  <span className="text-cyan-400 font-mono text-sm">
+                    [{metadata.current_page}/{metadata.last_page}]
                   </span>
                   <button
                     onClick={() => setPage(p => Math.min(metadata.last_page, p + 1))}
                     disabled={page === metadata.last_page}
-                    className="px-4 py-2 border border-slate-300 rounded-lg text-sm font-medium hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="px-4 py-2 bg-slate-800 border border-cyan-500/30 text-cyan-400 font-mono text-sm hover:bg-slate-700 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
                   >
-                    Next
+                    NEXT &gt;
                   </button>
                 </div>
               )}
@@ -399,26 +397,11 @@ export function ExercisesView() {
 
       <button
         onClick={() => setIsCreating(true)}
-        className="fixed bottom-8 right-8 p-4 bg-blue-600 text-white rounded-full shadow-lg hover:bg-blue-700 transition-all hover:scale-110"
+        className="fixed bottom-8 right-8 p-4 bg-cyan-500 text-slate-900 rounded-none shadow-lg hover:bg-cyan-400 transition-all hover:scale-110 border-2 border-cyan-300"
         title="Create Exercise"
       >
-        <Plus className="w-6 h-6" />
+        <Plus className="w-6 h-6 font-bold" />
       </button>
-
-      {selectedExercise && (
-        <ExerciseDetail
-          exercise={selectedExercise}
-          onClose={() => setSelectedExercise(null)}
-          onEdit={() => {
-            setEditingExercise(selectedExercise);
-            setSelectedExercise(null);
-          }}
-          onDelete={() => {
-            setDeletingExercise(selectedExercise);
-            setSelectedExercise(null);
-          }}
-        />
-      )}
 
       {isCreating && (
         <ExerciseForm onSave={handleCreate} onCancel={() => setIsCreating(false)} />
