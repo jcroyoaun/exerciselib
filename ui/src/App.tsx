@@ -64,7 +64,7 @@ function App() {
         </div>
 
         <footer className="mt-8 text-center text-sm text-slate-500">
-          <p>Exercise Library API v1.0.0</p>
+          <p>Exercise Library Admin v2.0.0 - CRUD ENABLED</p>
         </footer>
       </div>
     </div>
