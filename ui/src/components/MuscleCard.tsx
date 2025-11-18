@@ -1,5 +1,6 @@
 import { Zap, Edit, Trash2 } from 'lucide-react';
 import type { Muscle } from '../types/api';
+import { getBodyPartColors } from '../lib/colors';
 
 interface MuscleCardProps {
   muscle: Muscle;
@@ -7,25 +8,8 @@ interface MuscleCardProps {
   onDelete?: () => void;
 }
 
-const bodyPartColors: Record<string, { border: string; text: string }> = {
-  chest: { border: 'border-red-500', text: 'text-red-400' },
-  back: { border: 'border-emerald-500', text: 'text-emerald-400' },
-  traps: { border: 'border-lime-500', text: 'text-lime-400' },
-  shoulders: { border: 'border-amber-500', text: 'text-amber-400' },
-  biceps: { border: 'border-blue-500', text: 'text-blue-400' },
-  triceps: { border: 'border-indigo-500', text: 'text-indigo-400' },
-  forearms: { border: 'border-cyan-500', text: 'text-cyan-400' },
-  quadriceps: { border: 'border-violet-500', text: 'text-violet-400' },
-  hamstrings: { border: 'border-purple-500', text: 'text-purple-400' },
-  glutes: { border: 'border-fuchsia-500', text: 'text-fuchsia-400' },
-  calves: { border: 'border-pink-500', text: 'text-pink-400' },
-  core: { border: 'border-teal-500', text: 'text-teal-400' },
-  arms: { border: 'border-blue-500', text: 'text-blue-400' },
-  legs: { border: 'border-purple-500', text: 'text-purple-400' }
-};
-
 export function MuscleCard({ muscle, onEdit, onDelete }: MuscleCardProps) {
-  const colors = bodyPartColors[muscle.body_part] || bodyPartColors.chest;
+  const colors = getBodyPartColors(muscle.body_part);
 
   return (
     <div className={`bg-neutral-800 border-l-4 ${colors.border} p-4 hover:bg-neutral-750 transition-all group`}>

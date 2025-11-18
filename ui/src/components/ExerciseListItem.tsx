@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { ChevronRight, ChevronDown, Edit, Trash2, Zap } from 'lucide-react';
 import type { Exercise } from '../types/api';
+import { exerciseTypeColors, getMovementPatternColors, getBodyPartColors } from '../lib/colors';
 
 interface ExerciseListItemProps {
   exercise: Exercise;
@@ -10,6 +11,9 @@ interface ExerciseListItemProps {
 
 export function ExerciseListItem({ exercise, onEdit, onDelete }: ExerciseListItemProps) {
   const [expanded, setExpanded] = useState(false);
+
+  const typeColors = exerciseTypeColors[exercise.type];
+  const patternColors = getMovementPatternColors(exercise.movement_pattern?.name);
 
   return (
     <div className={`border-l-4 ${expanded ? 'border-green-500 bg-neutral-800' : 'border-white/30 bg-neutral-800/40'} hover:bg-neutral-800/80 transition-all`}>
@@ -29,13 +33,13 @@ export function ExerciseListItem({ exercise, onEdit, onDelete }: ExerciseListIte
           </div>
 
           <div className="col-span-2">
-            <span className={`inline-block px-2 py-0.5 ${expanded ? 'bg-neutral-700 border-2 border-green-500 text-green-400' : 'bg-neutral-800 border-2 border-white/40 text-white/80'} font-mono text-xs uppercase tracking-wider`}>
+            <span className={`inline-block px-2 py-0.5 border-2 ${typeColors.border} ${typeColors.text} bg-neutral-800 font-mono text-xs uppercase tracking-wider`}>
               {exercise.type}
             </span>
           </div>
 
           <div className="col-span-3 truncate">
-            <span className="text-neutral-400 font-mono text-sm truncate block">
+            <span className={`font-mono text-sm truncate block ${patternColors.text}`}>
               {exercise.movement_pattern?.name || '—'}
             </span>
           </div>
@@ -78,10 +82,10 @@ export function ExerciseListItem({ exercise, onEdit, onDelete }: ExerciseListIte
           <div className="pt-4 space-y-4">
             {exercise.movement_pattern?.description && (
               <div>
-                <div className="text-green-400 font-mono text-xs uppercase tracking-wider mb-2 font-bold">
-                  [ Movement Pattern ]
+                <div className={`${patternColors.text} font-mono text-xs uppercase tracking-wider mb-2 font-bold`}>
+                  [ {exercise.movement_pattern.name} ]
                 </div>
-                <p className="text-neutral-200 font-mono text-sm leading-relaxed pl-4 border-l-4 border-green-500/50">
+                <p className={`text-neutral-200 font-mono text-sm leading-relaxed pl-4 border-l-4 ${patternColors.border}`}>
                   {exercise.movement_pattern.description}
                 </p>
               </div>
@@ -95,12 +99,15 @@ export function ExerciseListItem({ exercise, onEdit, onDelete }: ExerciseListIte
                     [ Primary Muscles ]
                   </div>
                   <div className="space-y-1.5 pl-4">
-                    {exercise.primary_muscles.map((muscle) => (
-                      <div key={muscle.id} className="flex items-center justify-between bg-neutral-800 border-2 border-green-500/50 px-3 py-1.5">
-                        <span className="text-green-300 font-mono text-sm font-semibold">{muscle.name}</span>
-                        <span className="text-neutral-400 font-mono text-xs uppercase">{muscle.body_part}</span>
-                      </div>
-                    ))}
+                    {exercise.primary_muscles.map((muscle) => {
+                      const muscleColors = getBodyPartColors(muscle.body_part);
+                      return (
+                        <div key={muscle.id} className={`flex items-center justify-between bg-neutral-800 border-2 ${muscleColors.border} px-3 py-1.5`}>
+                          <span className={`${muscleColors.text} font-mono text-sm font-semibold`}>{muscle.name}</span>
+                          <span className={`${muscleColors.text} font-mono text-xs uppercase opacity-60`}>{muscle.body_part}</span>
+                        </div>
+                      );
+                    })}
                   </div>
                 </div>
               )}
@@ -112,12 +119,15 @@ export function ExerciseListItem({ exercise, onEdit, onDelete }: ExerciseListIte
                     [ Secondary Muscles ]
                   </div>
                   <div className="space-y-1.5 pl-4">
-                    {exercise.secondary_muscles.map((muscle) => (
-                      <div key={muscle.id} className="flex items-center justify-between bg-neutral-800 border-2 border-neutral-600/40 px-3 py-1.5">
-                        <span className="text-neutral-200 font-mono text-sm">{muscle.name}</span>
-                        <span className="text-neutral-400 font-mono text-xs uppercase">{muscle.body_part}</span>
-                      </div>
-                    ))}
+                    {exercise.secondary_muscles.map((muscle) => {
+                      const muscleColors = getBodyPartColors(muscle.body_part);
+                      return (
+                        <div key={muscle.id} className={`flex items-center justify-between bg-neutral-800 border-2 ${muscleColors.border} opacity-70 px-3 py-1.5`}>
+                          <span className={`${muscleColors.text} font-mono text-sm`}>{muscle.name}</span>
+                          <span className={`${muscleColors.text} font-mono text-xs uppercase opacity-60`}>{muscle.body_part}</span>
+                        </div>
+                      );
+                    })}
                   </div>
                 </div>
               )}
