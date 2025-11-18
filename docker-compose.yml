@@ -1,0 +1,58 @@
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: exerciselib-db
+    environment:
+      POSTGRES_USER: exerciselib
+      POSTGRES_PASSWORD: exerciselib
+      POSTGRES_DB: exerciselib
+      POSTGRES_INITDB_ARGS: "-E UTF8"
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/01-init.sql:ro
+    networks:
+      - exerciselib-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U exerciselib -d exerciselib"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: exerciselib-backend
+    environment:
+      EXERCISELIB_DB_DSN: "postgres://exerciselib:exerciselib@db:5432/exerciselib?sslmode=disable"
+    ports:
+      - "4000:4000"
+    networks:
+      - exerciselib-network
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./ui
+      dockerfile: Dockerfile
+    container_name: exerciselib-frontend
+    ports:
+      - "5173:5173"
+    networks:
+      - exerciselib-network
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+networks:
+  exerciselib-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+
