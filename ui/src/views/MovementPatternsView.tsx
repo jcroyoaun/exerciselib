@@ -73,22 +73,32 @@ export function MovementPatternsView() {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h2 className="text-xl font-bold text-slate-900">Manage Movement Patterns</h2>
+        <h2 className="text-xl font-mono font-bold text-cyan-400">[ MANAGE MOVEMENT PATTERNS ]</h2>
         <button
           onClick={() => setIsCreating(true)}
-          className="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-blue-700 transition-colors"
+          className="flex items-center gap-2 bg-cyan-400 text-neutral-950 px-4 py-2 border-2 border-cyan-500 font-mono font-bold hover:bg-cyan-500 transition-colors uppercase text-sm"
         >
           <Plus className="w-4 h-4" />
-          Create Pattern
+          Create
         </button>
       </div>
 
-      <SearchBar
-        value={searchTerm}
-        onChange={setSearchTerm}
-        onSearch={handleSearch}
-        placeholder="Search movement patterns..."
-      />
+      <div className="relative">
+        <input
+          type="text"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
+          placeholder="search patterns..."
+          className="w-full px-4 py-2.5 bg-neutral-700 border-2 border-cyan-400 text-white placeholder-white/30 font-mono text-sm focus:outline-none focus:ring-2 focus:ring-cyan-400"
+        />
+        <button
+          onClick={handleSearch}
+          className="absolute right-2 top-1/2 -translate-y-1/2 px-3 py-1 bg-cyan-400 text-neutral-950 font-mono text-xs font-bold hover:bg-cyan-500"
+        >
+          GO
+        </button>
+      </div>
 
       {loading ? (
         <LoadingSpinner />
@@ -96,7 +106,7 @@ export function MovementPatternsView() {
         <ErrorMessage message={error} />
       ) : patterns.length === 0 ? (
         <div className="text-center py-12">
-          <p className="text-slate-600">No movement patterns found.</p>
+          <p className="text-neutral-400 font-mono">// No movement patterns found.</p>
         </div>
       ) : (
         <>

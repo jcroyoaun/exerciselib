@@ -9,7 +9,7 @@ function App() {
   return (
     <div className="min-h-screen bg-neutral-950">
       <div className="h-screen flex flex-col">
-        <header className="bg-cyan-950 border-b-4 border-cyan-400 shadow-lg shadow-cyan-400/20">
+        <header className="bg-neutral-900 border-b-4 border-cyan-400 shadow-lg shadow-cyan-400/20">
           <div className="max-w-[1920px] mx-auto px-6 py-4">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-4">
@@ -20,7 +20,7 @@ function App() {
                   <h1 className="text-2xl font-mono font-bold text-cyan-400 tracking-tight">
                     &gt; EXERCISE_LIBRARY.EXE
                   </h1>
-                  <p className="text-sm font-mono text-cyan-600">
+                  <p className="text-sm font-mono text-neutral-500">
                     // your workout database
                   </p>
                 </div>

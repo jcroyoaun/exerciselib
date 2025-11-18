@@ -73,26 +73,31 @@ export function MusclesView() {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h2 className="text-xl font-bold text-slate-900">Manage Muscles</h2>
+        <h2 className="text-xl font-mono font-bold text-cyan-400">[ MANAGE MUSCLES ]</h2>
         <button
           onClick={() => setIsCreating(true)}
-          className="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-blue-700 transition-colors"
+          className="flex items-center gap-2 bg-cyan-400 text-neutral-950 px-4 py-2 border-2 border-cyan-500 font-mono font-bold hover:bg-cyan-500 transition-colors uppercase text-sm"
         >
           <Plus className="w-4 h-4" />
-          Create Muscle
+          Create
         </button>
       </div>
 
       <div>
-        <h3 className="text-sm font-semibold text-slate-700 mb-3">Filter by Body Part</h3>
+        <h3 className="text-xs font-mono font-semibold text-cyan-400 mb-3 uppercase tracking-wider">&gt; Filter by Body Part</h3>
         <div className="flex flex-wrap gap-2">
           {(['chest', 'back', 'shoulders', 'arms', 'legs', 'core'] as BodyPart[]).map((part) => (
-            <FilterButton
+            <button
               key={part}
-              label={part.charAt(0).toUpperCase() + part.slice(1)}
-              active={bodyPartFilter === part}
               onClick={() => toggleBodyPartFilter(part)}
-            />
+              className={`px-3 py-1.5 border-2 font-mono text-sm uppercase transition-colors ${
+                bodyPartFilter === part
+                  ? 'bg-cyan-400 text-neutral-950 border-cyan-500'
+                  : 'bg-neutral-800 text-cyan-400 border-cyan-400 hover:bg-neutral-700'
+              }`}
+            >
+              {part}
+            </button>
           ))}
         </div>
       </div>
@@ -103,7 +108,7 @@ export function MusclesView() {
         <ErrorMessage message={error} />
       ) : muscles.length === 0 ? (
         <div className="text-center py-12">
-          <p className="text-slate-600">No muscles found.</p>
+          <p className="text-neutral-400 font-mono">// No muscles found.</p>
         </div>
       ) : (
         <>

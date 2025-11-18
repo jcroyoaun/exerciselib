@@ -17,44 +17,40 @@ export function Pagination({ metadata, onPageChange }: PaginationProps) {
   const endRecord = Math.min(current_page * metadata.page_size, total_records);
 
   return (
-    <div className="flex items-center justify-between px-6 py-4 bg-white border-t border-slate-200">
-      <div className="text-sm text-slate-600">
-        Showing <span className="font-medium text-slate-900">{startRecord}</span> to{' '}
-        <span className="font-medium text-slate-900">{endRecord}</span> of{' '}
-        <span className="font-medium text-slate-900">{total_records}</span> results
+    <div className="flex items-center justify-between px-6 py-4 bg-neutral-800 border-t-2 border-cyan-400">
+      <div className="text-sm font-mono text-neutral-400">
+        // showing <span className="text-cyan-400 font-bold">{startRecord}</span> to{' '}
+        <span className="text-cyan-400 font-bold">{endRecord}</span> of{' '}
+        <span className="text-cyan-400 font-bold">{total_records}</span>
       </div>
 
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-3">
         <button
           onClick={() => onPageChange(current_page - 1)}
           disabled={!hasPrev}
-          className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+          className={`px-4 py-2 border-2 font-mono text-sm font-bold uppercase transition-all ${
             hasPrev
-              ? 'bg-white text-slate-700 border border-slate-200 hover:bg-slate-50 hover:border-slate-300'
-              : 'bg-slate-50 text-slate-400 border border-slate-200 cursor-not-allowed'
+              ? 'bg-neutral-700 text-cyan-400 border-cyan-400 hover:bg-neutral-600'
+              : 'bg-neutral-800 text-neutral-600 border-neutral-700 cursor-not-allowed'
           }`}
         >
-          <ChevronLeft className="w-4 h-4" />
-          Previous
+          &lt; PREV
         </button>
 
         <div className="flex items-center gap-1 px-3">
-          <span className="text-sm font-medium text-slate-900">{current_page}</span>
-          <span className="text-sm text-slate-500">/</span>
-          <span className="text-sm text-slate-600">{last_page}</span>
+          <span className="text-sm font-mono font-bold text-cyan-400">[{current_page}/{last_page}]</span>
         </div>
 
         <button
           onClick={() => onPageChange(current_page + 1)}
           disabled={!hasNext}
-          className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+          className={`px-4 py-2 border-2 font-mono text-sm font-bold uppercase transition-all ${
             hasNext
-              ? 'bg-white text-slate-700 border border-slate-200 hover:bg-slate-50 hover:border-slate-300'
-              : 'bg-slate-50 text-slate-400 border border-slate-200 cursor-not-allowed'
+              ? 'bg-neutral-700 text-cyan-400 border-cyan-400 hover:bg-neutral-600'
+              : 'bg-neutral-800 text-neutral-600 border-neutral-700 cursor-not-allowed'
           }`}
         >
-          Next
-          <ChevronRight className="w-4 h-4" />
+          NEXT &gt;
         </button>
       </div>
     </div>

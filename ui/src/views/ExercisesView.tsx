@@ -176,14 +176,14 @@ export function ExercisesView() {
   return (
     <div className="h-full flex">
       {showFilters && (
-        <aside className="w-80 bg-yellow-950 border-r-4 border-yellow-400 overflow-y-auto flex-shrink-0 shadow-lg shadow-yellow-400/10">
+        <aside className="w-80 bg-neutral-900 border-r-4 border-yellow-400 overflow-y-auto flex-shrink-0 shadow-lg shadow-yellow-400/10">
           <div className="p-6 space-y-6">
-            <div className="flex items-center justify-between border-b-2 border-yellow-500 pb-3">
-              <h3 className="text-lg font-mono font-bold text-yellow-300">[ FILTERS ]</h3>
+            <div className="flex items-center justify-between border-b-2 border-yellow-400 pb-3">
+              <h3 className="text-lg font-mono font-bold text-yellow-400">[ FILTERS ]</h3>
               {hasActiveFilters && (
                 <button
                   onClick={clearFilters}
-                  className="text-xs text-yellow-300 hover:text-yellow-200 font-mono bg-yellow-900 px-2 py-1 border-2 border-yellow-400"
+                  className="text-xs text-yellow-400 hover:text-yellow-300 font-mono bg-neutral-800 px-2 py-1 border-2 border-yellow-400"
                 >
                   CLEAR
                 </button>
@@ -191,7 +191,7 @@ export function ExercisesView() {
             </div>
 
             <div>
-              <label className="text-xs font-mono font-semibold text-yellow-300 mb-3 block uppercase tracking-wider">
+              <label className="text-xs font-mono font-semibold text-yellow-400 mb-3 block uppercase tracking-wider">
                 &gt; Exercise Type
               </label>
               <div className="space-y-2">
@@ -201,9 +201,9 @@ export function ExercisesView() {
                       type="checkbox"
                       checked={typeFilter.includes(type)}
                       onChange={() => toggleType(type)}
-                      className="w-4 h-4 rounded-none border-2 border-yellow-400 bg-yellow-900 text-yellow-400 focus:ring-yellow-400"
+                      className="w-4 h-4 rounded-none border-2 border-yellow-400 bg-neutral-950 text-yellow-400 focus:ring-yellow-400"
                     />
-                    <span className="text-sm font-mono text-yellow-100 group-hover:text-yellow-300 capitalize">
+                    <span className="text-sm font-mono text-neutral-300 group-hover:text-yellow-400 capitalize">
                       {type}
                     </span>
                   </label>
@@ -212,7 +212,7 @@ export function ExercisesView() {
             </div>
 
             <div>
-              <label className="text-xs font-mono font-semibold text-yellow-300 mb-3 block uppercase tracking-wider">
+              <label className="text-xs font-mono font-semibold text-yellow-400 mb-3 block uppercase tracking-wider">
                 &gt; Muscle Groups
               </label>
               <div className="space-y-2 max-h-80 overflow-y-auto">
@@ -222,9 +222,9 @@ export function ExercisesView() {
                       type="checkbox"
                       checked={muscleFilters.includes(muscle.id)}
                       onChange={() => toggleMuscle(muscle.id)}
-                      className="w-4 h-4 rounded-none border-2 border-yellow-400 bg-yellow-900 text-yellow-400 focus:ring-yellow-400"
+                      className="w-4 h-4 rounded-none border-2 border-yellow-400 bg-neutral-950 text-yellow-400 focus:ring-yellow-400"
                     />
-                    <span className="text-sm font-mono text-yellow-100 group-hover:text-yellow-300">
+                    <span className="text-sm font-mono text-neutral-300 group-hover:text-yellow-400">
                       {muscle.name}
                     </span>
                   </label>
@@ -233,7 +233,7 @@ export function ExercisesView() {
             </div>
 
             <div>
-              <label className="text-xs font-mono font-semibold text-yellow-300 mb-3 block uppercase tracking-wider">
+              <label className="text-xs font-mono font-semibold text-yellow-400 mb-3 block uppercase tracking-wider">
                 &gt; Movement Patterns
               </label>
               <div className="space-y-2">
@@ -243,9 +243,9 @@ export function ExercisesView() {
                       type="checkbox"
                       checked={patternFilters.includes(pattern.name)}
                       onChange={() => togglePattern(pattern.name)}
-                      className="w-4 h-4 rounded-none border-2 border-yellow-400 bg-yellow-900 text-yellow-400 focus:ring-yellow-400"
+                      className="w-4 h-4 rounded-none border-2 border-yellow-400 bg-neutral-950 text-yellow-400 focus:ring-yellow-400"
                     />
-                    <span className="text-sm font-mono text-yellow-100 group-hover:text-yellow-300">
+                    <span className="text-sm font-mono text-neutral-300 group-hover:text-yellow-400">
                       {pattern.name}
                     </span>
                   </label>
