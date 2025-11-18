@@ -1,8 +1,10 @@
-import { Zap } from 'lucide-react';
+import { Zap, Edit, Trash2 } from 'lucide-react';
 import type { Muscle } from '../types/api';
 
 interface MuscleCardProps {
   muscle: Muscle;
+  onEdit?: () => void;
+  onDelete?: () => void;
 }
 
 // Color mapping for specific muscle groups
@@ -32,14 +34,34 @@ const bodyPartColors: Record<string, { bg: string; border: string; text: string 
   core: { bg: 'bg-teal-50', border: 'border-teal-200', text: 'text-teal-700' }
 };
 
-export function MuscleCard({ muscle }: MuscleCardProps) {
+export function MuscleCard({ muscle, onEdit, onDelete }: MuscleCardProps) {
   const colors = bodyPartColors[muscle.body_part] || bodyPartColors.chest;
 
   return (
     <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-5 hover:shadow-md transition-all duration-200">
       <div className="flex items-start justify-between mb-3">
-        <h3 className="text-base font-semibold text-slate-900">{muscle.name}</h3>
-        <Zap className="w-4 h-4 text-slate-400" />
+        <h3 className="text-base font-semibold text-slate-900 flex-1">{muscle.name}</h3>
+        <div className="flex items-center gap-1 shrink-0">
+          {onEdit && (
+            <button
+              onClick={onEdit}
+              className="p-1.5 hover:bg-blue-50 rounded-lg transition-colors"
+              title="Edit"
+            >
+              <Edit className="w-3.5 h-3.5 text-blue-600" />
+            </button>
+          )}
+          {onDelete && (
+            <button
+              onClick={onDelete}
+              className="p-1.5 hover:bg-red-50 rounded-lg transition-colors"
+              title="Delete"
+            >
+              <Trash2 className="w-3.5 h-3.5 text-red-600" />
+            </button>
+          )}
+          <Zap className="w-4 h-4 text-slate-400 ml-1" />
+        </div>
       </div>
 
       <span

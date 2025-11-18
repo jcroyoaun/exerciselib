@@ -14,10 +14,11 @@ import { BODY_PART_MAPPING as bodyPartMapping } from '../types/api';
 
 const API_BASE = '/v1';
 
-async function fetchAPI<T>(endpoint: string): Promise<T> {
-  const response = await fetch(`${API_BASE}${endpoint}`);
+async function fetchAPI<T>(endpoint: string, options?: RequestInit): Promise<T> {
+  const response = await fetch(`${API_BASE}${endpoint}`, options);
   if (!response.ok) {
-    throw new Error(`API error: ${response.statusText}`);
+    const error = await response.json().catch(() => ({ error: response.statusText }));
+    throw new Error(error.error || error.message || response.statusText);
   }
   return response.json();
 }
@@ -168,4 +169,94 @@ export async function getMovementPatterns(params: {
 
 export async function getMovementPattern(id: number): Promise<{ movement_pattern: MovementPattern }> {
   return fetchAPI<{ movement_pattern: MovementPattern }>(`/movement-patterns/${id}`);
+}
+
+export async function createExercise(exercise: {
+  name: string;
+  type: ExerciseType;
+  movement_pattern_id: number;
+  primary_muscles: number[];
+  secondary_muscles: number[];
+}): Promise<{ exercise: Exercise }> {
+  return fetchAPI<{ exercise: Exercise }>('/exercises', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(exercise)
+  });
+}
+
+export async function updateExercise(id: number, exercise: {
+  name?: string;
+  type?: ExerciseType;
+  movement_pattern_id?: number;
+  primary_muscles?: number[];
+  secondary_muscles?: number[];
+}): Promise<{ exercise: Exercise }> {
+  return fetchAPI<{ exercise: Exercise }>(`/exercises/${id}`, {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(exercise)
+  });
+}
+
+export async function deleteExercise(id: number): Promise<{ message: string }> {
+  return fetchAPI<{ message: string }>(`/exercises/${id}`, {
+    method: 'DELETE'
+  });
+}
+
+export async function createMuscle(muscle: {
+  name: string;
+  body_part: DbBodyPart;
+}): Promise<{ muscle: Muscle }> {
+  return fetchAPI<{ muscle: Muscle }>('/muscles', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(muscle)
+  });
+}
+
+export async function updateMuscle(id: number, muscle: {
+  name?: string;
+  body_part?: DbBodyPart;
+}): Promise<{ muscle: Muscle }> {
+  return fetchAPI<{ muscle: Muscle }>(`/muscles/${id}`, {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(muscle)
+  });
+}
+
+export async function deleteMuscle(id: number): Promise<{ message: string }> {
+  return fetchAPI<{ message: string }>(`/muscles/${id}`, {
+    method: 'DELETE'
+  });
+}
+
+export async function createMovementPattern(pattern: {
+  name: string;
+  description: string;
+}): Promise<{ movement_pattern: MovementPattern }> {
+  return fetchAPI<{ movement_pattern: MovementPattern }>('/movement-patterns', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(pattern)
+  });
+}
+
+export async function updateMovementPattern(id: number, pattern: {
+  name?: string;
+  description?: string;
+}): Promise<{ movement_pattern: MovementPattern }> {
+  return fetchAPI<{ movement_pattern: MovementPattern }>(`/movement-patterns/${id}`, {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(pattern)
+  });
+}
+
+export async function deleteMovementPattern(id: number): Promise<{ message: string }> {
+  return fetchAPI<{ message: string }>(`/movement-patterns/${id}`, {
+    method: 'DELETE'
+  });
 }

@@ -1,10 +1,13 @@
 import { useState, useEffect } from 'react';
+import { Plus } from 'lucide-react';
 import { SearchBar } from '../components/SearchBar';
 import { MovementPatternCard } from '../components/MovementPatternCard';
+import { MovementPatternForm } from '../components/MovementPatternForm';
+import { ConfirmDialog } from '../components/ConfirmDialog';
 import { Pagination } from '../components/Pagination';
 import { LoadingSpinner } from '../components/LoadingSpinner';
 import { ErrorMessage } from '../components/ErrorMessage';
-import { getMovementPatterns } from '../lib/api';
+import { getMovementPatterns, createMovementPattern, updateMovementPattern, deleteMovementPattern } from '../lib/api';
 import type { MovementPattern } from '../types/api';
 
 export function MovementPatternsView() {
@@ -14,6 +17,9 @@ export function MovementPatternsView() {
   const [error, setError] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [page, setPage] = useState(1);
+  const [editingPattern, setEditingPattern] = useState<MovementPattern | null>(null);
+  const [isCreating, setIsCreating] = useState(false);
+  const [deletingPattern, setDeletingPattern] = useState<MovementPattern | null>(null);
 
   const loadPatterns = async () => {
     setLoading(true);
@@ -42,8 +48,41 @@ export function MovementPatternsView() {
     loadPatterns();
   };
 
+  const handleCreate = async (data: any) => {
+    await createMovementPattern(data);
+    setIsCreating(false);
+    loadPatterns();
+  };
+
+  const handleUpdate = async (data: any) => {
+    if (editingPattern) {
+      await updateMovementPattern(editingPattern.id, data);
+      setEditingPattern(null);
+      loadPatterns();
+    }
+  };
+
+  const handleDelete = async () => {
+    if (deletingPattern) {
+      await deleteMovementPattern(deletingPattern.id);
+      setDeletingPattern(null);
+      loadPatterns();
+    }
+  };
+
   return (
     <div className="space-y-6">
+      <div className="flex items-center justify-between">
+        <h2 className="text-xl font-bold text-slate-900">Manage Movement Patterns</h2>
+        <button
+          onClick={() => setIsCreating(true)}
+          className="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-blue-700 transition-colors"
+        >
+          <Plus className="w-4 h-4" />
+          Create Pattern
+        </button>
+      </div>
+
       <SearchBar
         value={searchTerm}
         onChange={setSearchTerm}
@@ -63,12 +102,41 @@ export function MovementPatternsView() {
         <>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {patterns.map((pattern) => (
-              <MovementPatternCard key={pattern.id} pattern={pattern} />
+              <MovementPatternCard
+                key={pattern.id}
+                pattern={pattern}
+                onEdit={() => setEditingPattern(pattern)}
+                onDelete={() => setDeletingPattern(pattern)}
+              />
             ))}
           </div>
 
           {metadata && <Pagination metadata={metadata} onPageChange={setPage} />}
         </>
+      )}
+
+      {isCreating && (
+        <MovementPatternForm
+          onSave={handleCreate}
+          onCancel={() => setIsCreating(false)}
+        />
+      )}
+
+      {editingPattern && (
+        <MovementPatternForm
+          pattern={editingPattern}
+          onSave={handleUpdate}
+          onCancel={() => setEditingPattern(null)}
+        />
+      )}
+
+      {deletingPattern && (
+        <ConfirmDialog
+          title="Delete Movement Pattern"
+          message={`Are you sure you want to delete "${deletingPattern.name}"? This action cannot be undone.`}
+          onConfirm={handleDelete}
+          onCancel={() => setDeletingPattern(null)}
+        />
       )}
     </div>
   );
